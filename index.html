@@ -232,21 +232,21 @@ catch(e){
 }
 </script>
   <script>
-    naviga=document.querySelectorAll(".navbar")
-nav_items=[]
-naviga.forEach((nav) => {
-    nav_text=nav.innerText
-    nav_text.split('\n').forEach((item){
-        nav_items.push(item)
-    })
-})
-document.addEventListener("DOMContentLoaded", function(){
-    document.addEventListener("click", function(event){
-        if (event.target === "a" && nav_items.includes(event.target.innerText.trim())){
-            console.log(event.target.innerText.trim())
+    document.addEventListener("DOMContentLoaded", function() {
+    const nav_items = [];
+    const naviga = document.querySelectorAll(".navbar a");
+
+    naviga.forEach((nav) => {
+        nav_items.push(nav.innerText.trim());
+    });
+
+    document.addEventListener("click", function(event) {
+        if (event.target.tagName === "A" && nav_items.includes(event.target.innerText.trim())) {
+            console.log(event.target.innerText);
         }
-    })
-})
+    });
+});
+
 </script>
   
 </body></html>
