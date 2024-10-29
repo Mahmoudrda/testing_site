@@ -232,9 +232,19 @@ catch(e){
 }
 </script>
   <script>
+    naviga=document.querySelectorAll(".navbar")
+nav_items=[]
+naviga.forEach((nav) => {
+    nav_text=nav.innerText
+    nav_text.split('\n').forEach((item){
+        nav_items.push(item)
+    })
+})
 document.addEventListener("DOMContentLoaded", function(){
     document.addEventListener("click", function(event){
-        console.log(event)
+        if (event.target === "a" && nav_items.includes(event.target.innerText.trim())){
+            console.log(event.target.innerText.trim())
+        }
     })
 })
 </script>
