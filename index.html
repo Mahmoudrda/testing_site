@@ -146,6 +146,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#v2">V-Section #2</a>
   <a href="#v3">V-Section #3</a>
   <a href="https://www.google.com" class="right">Google Search</a>
+  <a href=" login.html" class="login_btn">Login</a>
 </div>
 
 <div class="row">
@@ -232,20 +233,20 @@ catch(e){
 }
 </script>
   <script>
-    naviga=document.querySelectorAll(".navbar")
-nav_items=[]
-naviga.forEach((nav) => {
-    nav_text=nav.innerText
-    nav_text.split('\n').forEach((item)=>{
-        nav_items.push(item)
-    })
-})
-document.addEventListener("DOMContentLoaded", function(){
-    document.addEventListener("click", function(event){
-        if (event.target === "A" && nav_items.includes(event.target.innerText.trim())){
-            console.log(event.target.innerText.trim())
-        }
-    })
+      var login_status = localStorage.getItem('login_status') === 'true'
+
+document.querySelector('.login_btn').addEventListener('click', function(event) {
+    if (login_status === false) {
+        document.querySelector('.login_btn').innerHTML = 'Logout'
+        login_status = true
+        localStorage.setItem('login_status', 'true')
+    } else if (login_status === true) {
+        document.querySelector('.login_btn').innerHTML = 'Login'
+        login_status = false;
+        localStorage.setItem('login_status', 'false')
+        
+        event.preventDefault()
+    }
 })
   </script>
   
