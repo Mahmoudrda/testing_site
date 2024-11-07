@@ -233,6 +233,30 @@ catch(e){
 }
 </script>
   <script>
+    <script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+  var inputs = [
+    { field: 'name', element: document.querySelector('#name'), condition: function(val) { return typeof val === 'string' && val.length >= 1 } },
+    { field: 'email', element: document.querySelector('#email'), condition: function(val) { return /.+@\w+.com/.test(val) } },
+    { field: 'message', element: document.querySelector('#message'), condition: function(val) { return typeof val === 'string' && val.length >= 1 && !/Your Message Here/.test(val) } }
+  ]
+
+  var errorMessages = document.querySelectorAll('.error')
+  for (var i = 0; i < errorMessages.length; i++) {
+    errorMessages[i].remove()
+  }
+
+  for (var i = 0; i < inputs.length; i++) {
+    var input = inputs[i]
+    if (!input.condition(input.element.value)) {
+      event.preventDefault()
+      var errorMessage = document.createElement('div')
+      errorMessage.setAttribute('class', 'error')
+      errorMessage.innerHTML = 'Please fill in the ' + input.field + ' field.'
+      input.element.insertAdjacentElement('afterend', errorMessage)
+    }
+  }
+})
       var login_status = localStorage.getItem('login_status') === 'true'
 
 document.querySelector('.login_btn').addEventListener('click', function(event) {
