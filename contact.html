@@ -126,6 +126,12 @@ body {
     width: 100%;
   }
 }
+.error {
+  position: relative;
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+}
 </style>
 </head>
 <body>
@@ -242,36 +248,56 @@ body {
   <h2>Footer</h2>
 </div>
 <script>
-  if (localStorage.getItem('login_status') === null) {
-      localStorage.setItem('login_status', 'false')
+  document.querySelector('form').addEventListener('submit', function(event) {
+  var inputs = [
+    { field: 'name', element: document.querySelector('#name'), condition: function(val) { return typeof val === 'string' && val.length >= 1 } },
+    { field: 'email', element: document.querySelector('#email'), condition: function(val) { return /.+@\w+.com/.test(val) } },
+    { field: 'message', element: document.querySelector('#message'), condition: function(val) { return typeof val === 'string' && val.length >= 1 && !/Your Message Here/.test(val) } }
+  ]
+
+  var errorMessages = document.querySelectorAll('.error')
+  for (var i = 0; i < errorMessages.length; i++) {
+    errorMessages[i].remove()
   }
 
-  if (localStorage.getItem('login_status') === 'true') {
-      document.querySelector('.login_btn').innerHTML = 'Logout'
-  } else {
-      document.querySelector('.login_btn').innerHTML = 'Login'
-  }
-
-  document.querySelector('.login_btn').addEventListener('click', function(event) {
-      var login_status = localStorage.getItem('login_status')
-
-      if (login_status === 'false') {
-          document.querySelector('.login_btn').innerHTML = 'Logout'
-          localStorage.setItem('login_status', 'true')
-      } else if (login_status === 'true') {
-          document.querySelector('.login_btn').innerHTML = 'Login'
-          localStorage.setItem('login_status', 'false')
-          event.preventDefault()
-      }
-  })
-</script>
-<script>
-  var links = document.querySelectorAll("a")
-  for (var i=0; i<links.length; i++){
-    links[i].addEventListener("click", function(event){
-      console.log(event)
-    })
+  for (var i = 0; i < inputs.length; i++) {
+    var input = inputs[i]
+    if (!input.condition(input.element.value)) {
+      event.preventDefault()
+      var errorMessage = document.createElement('div')
+      errorMessage.setAttribute('class', 'error')
+      errorMessage.innerHTML = 'Please fill in the ' + input.field + ' field.'
+      input.element.insertAdjacentElement('afterend', errorMessage)
     }
+  }
+})
+var login_status = localStorage.getItem('login_status') === 'true'
+
+if (login_status) {
+    document.querySelector('.login_btn').innerHTML = 'Logout'
+} else {
+    document.querySelector('.login_btn').innerHTML = 'Login'
+}
+
+document.querySelector('.login_btn').addEventListener('click', function(event) {
+    if (login_status === false) {
+        document.querySelector('.login_btn').innerHTML = 'Logout'
+        login_status = true
+        localStorage.setItem('login_status', 'true')
+    } else {
+        document.querySelector('.login_btn').innerHTML = 'Login'
+        login_status = false
+        localStorage.setItem('login_status', 'false')
+        localStorage.removeItem('user_id')
+        event.preventDefault()
+    }
+})
+document.addEventListener('DOMContentLoaded', function() {
+  console.log (localStorage.getItem('login_status'))
+  console.log (user_id = localStorage.getItem('user_id'))
+  cookeie_value = document.cookie.split(';')[0].split('=')[1]
+  console.log (cookeie_value.split('.')[2] + '.' + cookeie_value.split('.')[3])
+})
 </script>
 
 

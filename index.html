@@ -265,53 +265,34 @@ catch(e){
     }
   }
 })
-var form = document.querySelector('form')
-var form_focused = false
-form.addEventListener('focusin', function(event) {
-    form_id = event.target.form.id
-    form_name = event.target.form.name
-    form_destination = event.target.form.action
-    if (!form_focused) {
-        form_focused = true
-        dataLayer.push({
-            'event': 'form_start',
-            'form_id': form_id,
-            'form_name': form_name,
-            'form_destination': form_destination
-        })
-    }
-})
-window.addEventListener('beforeunload', function(event) {
-    if (form_focused) {
-        dataLayer.push({
-            'event': 'form_abandon',
-            'form_id': form_id,
-            'form_name': form_name,
-            'form_destination': form_destination
-        })
-    }
-})
-form.addEventListener('submit', function(event){
-  if (document.querySelector('.error')) {
-    dataLayer.push({
-        'event': 'form_error',
-        'form_id': form_id,
-        'form_name': form_name,
-        'form_destination': form_destination,
-        'form_filed': document.querySelector('.error').parentElement.id
-    })
-  }
+var login_status = localStorage.getItem('login_status') === 'true'
 
-  else {
-    dataLayer.push({
-        'event': 'form_submit',
-        'form_id': form_id,
-        'form_name': form_name,
-        'form_destination': form_destination
-    })
-  }
+if (login_status) {
+    document.querySelector('.login_btn').innerHTML = 'Logout'
+} else {
+    document.querySelector('.login_btn').innerHTML = 'Login'
 }
-)
+
+document.querySelector('.login_btn').addEventListener('click', function(event) {
+    if (login_status === false) {
+        document.querySelector('.login_btn').innerHTML = 'Logout'
+        login_status = true
+        localStorage.setItem('login_status', 'true')
+    } else {
+        document.querySelector('.login_btn').innerHTML = 'Login'
+        login_status = false
+        localStorage.setItem('login_status', 'false')
+        localStorage.removeItem('user_id')
+        event.preventDefault()
+    }
+})
+document.addEventListener('DOMContentLoaded', function() {
+  console.log (localStorage.getItem('login_status'))
+  console.log (user_id = localStorage.getItem('user_id'))
+  cookeie_value = document.cookie.split(';')[0].split('=')[1]
+  console.log (cookeie_value.split('.')[2] + '.' + cookeie_value.split('.')[3])
+})
+
 </script>
 
 </body></html>
