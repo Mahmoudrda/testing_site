@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9Q54BW05S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J9Q54BW05S');
-</script>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-THMZ57DV');</script>
+  <!-- End Google Tag Manager -->
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Home | Sample Website</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -127,9 +125,21 @@ body {
     width: 100%;
   }
 }
+
+.error {
+  position: relative;
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
 </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THMZ57DV"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
 <div class="header">
   <h1>Home</h1>
@@ -144,6 +154,8 @@ body {
   <a href="#v2">V-Section #2</a>
   <a href="#v3">V-Section #3</a>
   <a href="https://www.google.com" class="right">Google Search</a>
+  <a href=" login.html" class="login_btn">Login</a>
+
 </div>
 
 <div class="row">
@@ -230,38 +242,76 @@ catch(e){
 }
 </script>
 <script>
-var scrollTracked = {
-    25: false,
-    50: false,
-    75: false,
-    100: false
+  document.querySelector('form').addEventListener('submit', function(event) {
+  var inputs = [
+    { field: 'name', element: document.querySelector('#name'), condition: function(val) { return typeof val === 'string' && val.length >= 1 } },
+    { field: 'email', element: document.querySelector('#email'), condition: function(val) { return /.+@\w+.com/.test(val) } },
+    { field: 'message', element: document.querySelector('#message'), condition: function(val) { return typeof val === 'string' && val.length >= 1 && !/Your Message Here/.test(val) } }
+  ]
+
+  var errorMessages = document.querySelectorAll('.error')
+  for (var i = 0; i < errorMessages.length; i++) {
+    errorMessages[i].remove()
   }
-  window.addEventListener('scroll', function() {
-    var scrollcurrent = window.scrollY + window.innerHeight
-    var pageheight = document.documentElement.scrollHeight
-    var percentage = (scrollcurrent / pageheight) * 100
-    if (percentage >=25 && !scrollTracked[25]) {
-      scrollTracked[25] = true
-      console.log('25%')
-      dataLayer.push({'event': 'scroll', 'scroll_threshold': 25, 'scroll_direction': 'vertical'})
-    }
-    if (percentage >=50 && !scrollTracked[50]) {
-      scrollTracked[50] = true
-      console.log('50%')
-      dataLayer.push({'event': 'scroll', 'scroll_threshold': 50, 'scroll_direction': 'vertical'})
-    }
-    if (percentage >=75 && !scrollTracked[75]) {
-      scrollTracked[75] = true
-      console.log('75%')
-      dataLayer.push({'event': 'scroll', 'scroll_threshold': 75, 'scroll_direction': 'vertical'})
-    }
-    if (percentage >=100 && !scrollTracked[100]) {
-      scrollTracked[100] = true
-      console.log('100%')
-      dataLayer.push({'event': 'scroll', 'scroll_threshold': 100, 'scroll_direction': 'vertical'})
-    }
 
+  for (var i = 0; i < inputs.length; i++) {
+    var input = inputs[i]
+    if (!input.condition(input.element.value)) {
+      event.preventDefault()
+      var errorMessage = document.createElement('div')
+      errorMessage.setAttribute('class', 'error')
+      errorMessage.innerHTML = 'Please fill in the ' + input.field + ' field.'
+      input.element.insertAdjacentElement('afterend', errorMessage)
+    }
+  }
+})
+var form = document.querySelector('form')
+var form_focused = false
+form.addEventListener('focusin', function(event) {
+    form_id = event.target.form.id
+    form_name = event.target.form.name
+    form_destination = event.target.form.action
+    if (!form_focused) {
+        form_focused = true
+        dataLayer.push({
+            'event': 'form_start',
+            'form_id': form_id,
+            'form_name': form_name,
+            'form_destination': form_destination
+        })
+    }
+})
+window.addEventListener('beforeunload', function(event) {
+    if (form_focused) {
+        dataLayer.push({
+            'event': 'form_abandon',
+            'form_id': form_id,
+            'form_name': form_name,
+            'form_destination': form_destination
+        })
+    }
+})
+form.addEventListener('submit', function(event){
+  if (document.querySelector('.error')) {
+    dataLayer.push({
+        'event': 'form_error',
+        'form_id': form_id,
+        'form_name': form_name,
+        'form_destination': form_destination,
+        'form_filed': document.querySelector('.error').parentElement.id
+    })
+  }
 
-  })  
+  else {
+    dataLayer.push({
+        'event': 'form_submit',
+        'form_id': form_id,
+        'form_name': form_name,
+        'form_destination': form_destination
+    })
+  }
+}
+)
 </script>
+
 </body></html>
