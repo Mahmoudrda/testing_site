@@ -90,16 +90,6 @@
         var user_ID = Math.floor(Math.random() * 10000000)
         localStorage.setItem('user_id', user_ID)
         localStorage.setItem('login_status', 'true')
-        var cookieMatch = document.cookie.match(/ga1\.\w\.\w+\.\w+/i)
-        var cookieValue = cookieMatch ? cookieMatch[0] : ''
-        var client_id = cookieValue 
-        dataLayer.push({
-            'event': 'page_view',
-            'page_type': window.location.pathname.split('/')[2]?.split('.')[0] || 'Home',
-            'login_status': 'true',
-            'client_id': client_id,
-            'user_id': user_ID
-        })
     })
 
 </script>
