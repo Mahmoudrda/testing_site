@@ -140,7 +140,6 @@ body {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THMZ57DV"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <script src="meta_data.js"></script>
 
 <div class="header">
   <h1>Home</h1>
@@ -155,7 +154,7 @@ body {
   <a href="#v2">V-Section #2</a>
   <a href="#v3">V-Section #3</a>
   <a href="https://www.google.com" class="right">Google Search</a>
-  <a href=" login.html" class="login_btn">Login</a>
+  <a href="javascript:void(0)" class="login_btn">Login</a>
 
 </div>
 
@@ -266,38 +265,6 @@ catch(e){
     }
   }
 })
-var login_status = localStorage.getItem('login_status') === 'true'
-
-if (login_status) {
-    document.querySelector('.login_btn').innerHTML = 'Logout'
-} else {
-    document.querySelector('.login_btn').innerHTML = 'Login'
-}
-
-document.querySelector('.login_btn').addEventListener('click', function(event) {
-    if (login_status === false) {
-        document.querySelector('.login_btn').innerHTML = 'Logout'
-        login_status = true
-        localStorage.setItem('login_status', 'true')
-    } else {
-        document.querySelector('.login_btn').innerHTML = 'Login'
-        login_status = false
-        localStorage.setItem('login_status', 'false')
-        localStorage.removeItem('user_id')
-        var cookieMatch = document.cookie.match(/ga1\.\w\.\w+\.\w+/i)
-        var cookieValue = cookieMatch ? cookieMatch[0] : ''
-        var client_id = cookieValue ? cookieValue.split('.')[2] + '.' + cookieValue.split('.')[3] : ''
-        dataLayer.push({
-            'event': 'log_out',
-            'page_type': window.location.pathname.split('/')[2]?.split('.')[0] || 'Home',
-            'login_status': 'false',
-            'client_id': client_id,
-            'user_id': null
-        })
-        event.preventDefault()
-    }
-})
-
 </script>
 
 </body></html>
