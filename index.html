@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <script>
+    var login_status = false
+    var user_id = null
     var cookieMatch = document.cookie.match(/ga1\.\w\.\w+\.\w+/i)
     var cookieValue = cookieMatch ? cookieMatch[0] : ''
     var client_id = cookieValue ? cookieValue.split('.')[2] + '.' + cookieValue.split('.')[3] : ''
