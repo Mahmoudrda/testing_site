@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"><head>
+  <script>
+    dataLayer = window.dataLayer || []
+    dataLayer.push({
+        'login_status': login_status,
+        'client_id': client_id,
+        'user_id': user_id,
+        'page_type': page_type
+    })
+  </script>
   <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
