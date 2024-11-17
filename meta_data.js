@@ -24,9 +24,9 @@
             login_status = false
             user_id = null
             dataLayer.push({
-                'login_status': false,
+                'login_status': login_status,
                 'client_id': client_id,
-                'user_id': null,
+                'user_id': user_id ,
                 'page_type': page_type
             })
         }
