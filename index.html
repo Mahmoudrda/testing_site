@@ -266,6 +266,29 @@ catch(e){
 }
 </script>
 <script>
+  var tag = document.createElement('script');
+  tag.type = "text/javascript";
+  tag.async = true;
+  tag.src = document.location.protocol + "//www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  document.querySelector("iframe")
+    .setAttribute("id", "player");
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+  function onPlayerReady(event) {
+    console.log("ready");
+  }
+  function onPlayerStateChange(event) {
+    console.log(event.data);
+  }
   document.querySelector('form').addEventListener('submit', function(event) {
   var inputs = [
     { field: 'name', element: document.querySelector('#name'), condition: function(val) { return typeof val === 'string' && val.length >= 1 } },
